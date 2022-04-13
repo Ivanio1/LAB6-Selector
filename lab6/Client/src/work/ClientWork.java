@@ -1,5 +1,7 @@
 package work;
 
+import data.LabWork;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -61,6 +63,14 @@ public class ClientWork {
                         } catch (IllegalArgumentException e) {
                             System.out.println("Неверный аргумент у команды, для справки введите команду help");
                         }
+                        break;
+                    case UPDATE:
+                        int id = commandReader.readId();
+                        LabWork work=commandReader.readWork();
+                        work.setId(id);
+                        command.setWork(work);
+                        sendCommand(socket, command);
+                        getAnswer(socket);
                         break;
                     case EXIT:
                         System.out.println("Программа клиента успешно завершена.");

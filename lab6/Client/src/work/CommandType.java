@@ -14,6 +14,7 @@ public enum CommandType implements Serializable {
     SHOW("show"),
     ADD("add"),
     UPDATE_ID("update_id"),
+    UPDATE("update"),
     REMOVE_BY_ID("remove_by_id"),
     CLEAR("clear"),
     EXECUTE_SCRIPT("execute_script"),

@@ -134,11 +134,13 @@ public class FileManager {
      * Сериализует коллекцию в файл json.
      */
     public void save(Vector<LabWork> works) throws IOException {
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((outPut))));
-        writer.write(gson.toJson(works));
-        System.out.println("Коллекция успешно сохранена.");
-
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((outPut))))) {
+            writer.write(gson.toJson(works));
+        } catch (Exception ex) {
+            System.out.println("Возникла непредвиденная ошибка. Коллекция не может быть записана в файл.");
+        }
     }
+
 
     /**
      * @return unique number.

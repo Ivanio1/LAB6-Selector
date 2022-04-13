@@ -16,27 +16,35 @@ public class CommandReader {
     public CommandReader() {
     }
 
-    /** Поле типа команды */
+    /**
+     * Поле типа команды
+     */
     private CommandType command;
-    /** Поле названия команды */
+    /**
+     * Поле названия команды
+     */
     private String userCommand;
-    /** Поле типа команды и ее аргументы */
-    private String[] finalUserCommand = new  String[2];
+    /**
+     * Поле типа команды и ее аргументы
+     */
+    private String[] finalUserCommand = new String[2];
 
-    /** Сканер для чтения информации из командной строки*/
+    /**
+     * Сканер для чтения информации из командной строки
+     */
     Scanner scanner = new Scanner(System.in);
-
 
 
     /**
      * Mетод для обработки нелегитимной команды
      */
-    public void invalidCommand(){
+    public void invalidCommand() {
         System.out.println("такой команды не существует, для справки введите команду help");
     }
 
     /**
      * Метод для работы со скриптом
+     *
      * @param t - путь к файлу
      * @return boolean, вошла ли программа в режим скрипта
      */
@@ -55,29 +63,33 @@ public class CommandReader {
         }
         return flag;
     }
+
     /**
      * @return unique number.
      */
     public static int create_id() {
         return (int) Math.round(Math.random() * 32767 * 10);
     }
+
     /**
      * Метод для проверки при работе со скриптом
+     *
      * @return boolean, остались ли строки в файле
      */
-    public boolean hasNextLine(){
+    public boolean hasNextLine() {
         return scanner.hasNextLine();
     }
 
     /**
      * Метод для возращения к работе интерактивного режима
      */
-    public void interactiveMod(){
+    public void interactiveMod() {
         scanner = new Scanner(System.in);
     }
 
     /**
      * Метод для чтения команды из командной строки
+     *
      * @return возвращает объект класса CommandDescription, тип команды и ее аргументы
      */
     public CommandDescription readCommand() {
@@ -85,22 +97,23 @@ public class CommandReader {
         finalUserCommand = userCommand.trim().split(" ", 2);
         try {
             command = CommandType.valueOf(finalUserCommand[0].toUpperCase(Locale.ROOT));
-        } catch ( IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             command = CommandType.INVALID_COMMAND;
         }
         if (finalUserCommand.length > 1) {
             return new CommandDescription(command, finalUserCommand[1]);
-        }else {
+        } else {
             return new CommandDescription(command, "");
         }
     }
 
     /**
      * Чтение данных из скрипта
+     *
      * @param argument
      * @return
      */
-    public String readScript(String argument){
+    public String readScript(String argument) {
         StringBuilder builder = new StringBuilder();
         try {
             if (argument == null) {
@@ -137,7 +150,22 @@ public class CommandReader {
                             }
                             //System.out.println(command);
 
-                            userCommand[1] = command.toString();
+                            userCommand[1] = command.toString()+";"+line;
+
+
+                        }
+                        if (userCommand[0].equals("update")) {
+                            StringBuilder command = new StringBuilder();
+                            String[] comands = new String[]{"execute_script", "save", "remove_first", "add", "remove_greater", "show", "clear", "update_id", "info", "help", "man", "remove_at_index", "remove_by_id", "add_if_max", "exit", "max_by_author", "count_by_difficulty", "filter_greater_than_minimal_point"};
+                            String line = (scriptScanner.nextLine().trim() + " ").split(" ")[0];
+                            while (!(Arrays.asList(comands)).contains(line)) {
+                                command.append(line + ",");
+                                line = scriptScanner.nextLine();
+                            }
+                            //System.out.println(command);
+
+                            userCommand[1] = command.toString()+";"+line;
+
 
                         }
                         if (userCommand[0].equals("execute_script")) {
@@ -165,12 +193,13 @@ public class CommandReader {
         // System.out.println(commands);
         return String.valueOf(builder).trim();
     }
+
     /**
      * Вспомогательный метод для чтения Id из командной строки
      *
      * @return возвращает объект класса String
      */
-    public int readId(){
+    public int readId() {
         Scanner scanner = new Scanner(System.in);
 
         Integer y = null;
@@ -190,6 +219,7 @@ public class CommandReader {
         } while (y == null);
         return y;
     }
+
     /**
      * Метод для чтения объекта LabWork из командной строки
      *
@@ -215,7 +245,6 @@ public class CommandReader {
         }
         return W;
     }
-
 
 
     /**

@@ -63,7 +63,7 @@ public class CommandDescription implements Serializable {
         this.args = args;
     }
 
-    public LabWork getProduct() {
+    public LabWork getWork() {
         return work;
     }
 
