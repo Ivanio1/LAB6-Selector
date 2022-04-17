@@ -37,6 +37,7 @@ public class ClientWork {
                     case HELP:
                     case INFO:
                     case SHOW:
+                    case SAVE:
                     case EXECUTE_SCRIPT:
                     case CLEAR:
                     case MAX_BY_AUTHOR:

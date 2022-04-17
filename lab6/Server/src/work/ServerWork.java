@@ -103,7 +103,11 @@ public class ServerWork {
                 toClient.writeObject(this.collectionManager.removeFirst());
                 break;
             case INFO:
+
                 toClient.writeObject(this.collectionManager.info());
+                break;
+            case SAVE:
+                toClient.writeObject( this.fileManager.save(this.collectionManager.getCollection()));
                 break;
             case SHOW:
                 toClient.writeObject(this.collectionManager.show());
@@ -157,7 +161,7 @@ public class ServerWork {
     public void serverMod() throws IOException {
         String s = "";
         CommandDescription command = this.commandReader.readCommand();
-        switch(command.getCommand()) {
+        switch (command.getCommand()) {
             case SAVE:
                 this.fileManager.save(this.collectionManager.getCollection());
                 logger.info("Коллекция успешно сохранена.");
@@ -220,6 +224,9 @@ public class ServerWork {
                         case "clear":
                             s += this.collectionManager.clear() + "\n";
                             break;
+                        case "save":
+                            s+=this.fileManager.save(this.collectionManager.getCollection());
+                            break;
                         case "info":
                             s += this.collectionManager.info() + "\n";
                             break;
@@ -255,6 +262,8 @@ public class ServerWork {
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Отсутствует аргумент.");
                 } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
